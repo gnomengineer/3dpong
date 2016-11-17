@@ -1,7 +1,7 @@
 //
 // Computer Graphics 
 //
-// Uebung 2: WebGL
+// Uebung 3: WebGL
 //
 window.onload = startup ;
 window.keys= [];
