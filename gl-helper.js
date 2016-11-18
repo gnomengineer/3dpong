@@ -1,105 +1,50 @@
 /**
- * a collection of generic methods
+ * generates the ID for each uniform given by the array of names.
+ *
+ * @param uniformNames - array of uniform names.
  */
-
-//@TODO define a general object with methods to draw...
-//
-// function setUpAttributes(){
-//     "use strict";
-//
-//     shaderProgram.aVertexPositionId = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-//     shaderProgram.uColorPositionId = gl.getUniformLocation(shaderProgram, "uColor");
-//     shaderProgram.aColorPositionId = gl.getAttribLocation(shaderProgram, "aColor");
-//     shaderProgram.uModelViewMatrixID = gl.getUniformLocation(shaderProgram, "uModelViewMatrix");
-//     shaderProgram.uProjectionMatrixID = gl.getUniformLocation(shaderProgram, "uProjectionMatrix");
-//
-// }
-
 function setUpUniforms( uniformNames ) {
     uniformNames.forEach( function (entry) {
-            shaderProgram.uniforms[entry] = gl.getUniformLocation(shaderProgram, entry)
+            shaderProgram.uniformIDs[entry] = gl.getUniformLocation(shaderProgram, entry)
         }
     );
 }
 
+/**
+ * generates the ID for each attribute given by names.
+ *
+ * @param attributeNames - array of attribute names.
+ */
 function setUpAttributes (attributeNames ){
     attributeNames.forEach(function (entry) {
-            shaderProgram.glAttributes[entry] = gl.getAttribLocation(shaderProgram, entry)
+            shaderProgram.attributeIDs[entry] = gl.getAttribLocation(shaderProgram, entry)
         }
     )
 }
 
-function setUpArrayBuffers(bufferContent){
-    "use strict";
-
-    var buffer = gl.createBuffer();
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(bufferContent),gl.STATIC_DRAW);
-
-    return buffer;
-}
-
-function setUpElementBuffer(bufferContent) {
-    var buffer = gl.createBuffer();
-
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER , new Uint16Array ( bufferContent ), gl.STATIC_DRAW ) ;
-
-    return buffer;
-}
-
-function drawStrip(bufferPos,bufferColor, numberOfVectors){
-    enablePositionBuffer(bufferPos,numberOfVectors);
-    enableColorBuffer(bufferColor);
+//@TODO move to seperate file
+function drawStrip(formattedPositionBuffer, formattedColorBuffer){
+    enableBuffer(shaderProgram.glAttributes[attributeNames[0]],bufferPos,numberOfVectors);
+    enableBuffer(shaderProgram.glAttributes[attributeNames[0]],bufferColor,numberOfVectors);
     gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
 }
 
-/**
- *
- * @param attributeName
- * @param edgeBuffer
- * @param vertexBuffer
- */
+//@TODO move to seperate file
 function drawTriangles(attributeName, edgeBuffer, vertexBuffer) {
     enableBuffer(shaderProgram.glAttributes[attributeName], vertexBuffer,3);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, edgeBuffer);
     gl.drawElements(gl.TRIANGLES, edgeBuffer.length, gl.UNSIGNED_SHORT, 0);
 }
 
-/**
- * draws a line between the points in the given buffer.
- *
- * @param attributeName
- * @param bufferPos
- */
+//@TODO move to seperate file
 function drawLine(attributeName, bufferPos){
     enableBuffer(shaderProgram.glAttributes[attributeName], bufferPos, 2);
     gl.lineWidth = .5;
     gl.drawArrays(gl.LINES,0,2)
 }
 
-/**
- * draws a circle with the given points in the buffer.
- *
- * @param attributeName - name of the target gl attribute
- * @param bufferPosition - buffer with positions in it
- * @param verticesCount - number of positions
- */
+//@TODO move to seperate file
 function drawCircle(attributeName, bufferPosition, verticesCount){
     enableBuffer(shaderProgram.glAttributes[attributeName], bufferPosition, 4);
     gl.drawArrays(gl.LINE_LOOP,0,verticesCount);
-}
-
-/**
- * enables the given buffer onto the given attribute.
- *
- * @param attributeID - target attributeID
- * @param buffer - gl buffer
- * @param n - amount of vertices
- */
-function enableBuffer(attributeID, buffer, n){
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.vertexAttribPointer( attributeID, n , gl.FLOAT, false,0,0);
-    gl.enableVertexAttribArray( attributeID );
 }
