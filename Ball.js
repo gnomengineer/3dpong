@@ -24,13 +24,22 @@ function Ball() {
         4, 7, 6, 4, 6, 5   //back
     ];
 
-    this.vertexBuffer = setUpArrayBuffers(vertices);
+    var colors = [
+        1,1,1,1,
+        0.2, 0.2, 0.2, 1,
+        1,1,1,1,
+        0.2, 0.2, 0.2, 1,
+        0.2, 0.2, 0.2, 1,
+        1,1,1,1,
+        0.2, 0.2, 0.2, 1,
+        1,1,1,1
+    ];
 
-    this.edgeBuffer = setUpElementBuffer(edges);
+    this.vertexBuffer = new ArrayBuffer(vertices);
 
-    this.getEdgesLength = function () {
-        return edges.length;
-    }
+    this.edgeBuffer = new ElementArrayBuffer(edges);
+
+    this.colorBuffer = new ArrayBuffer(colors);
 }
 
 Ball.prototype.rotate = function (deltaTime) {
@@ -44,3 +53,31 @@ Ball.prototype.move = function (deltaTime) {
 Ball.prototype.resize = function (deltaTime) {
 
 };
+
+/**
+ * enables the color and position in the GL environment.
+ *
+ * @param colorAttributeName - name of the color attribute
+ * @param positionAttributeName - name of the position attribute
+ */
+Ball.prototype.enable = function (colorAttributeName, positionAttributeName) {
+    this.vertexBuffer.bind();
+    var attributeID = shaderProgram.attributeIDs[positionAttributeName];
+    gl.vertexAttribPointer( attributeID, this.vertexBuffer.length , gl.FLOAT, false,0,0);
+    gl.enableVertexAttribArray( attributeID );
+
+    this.colorBuffer.bind();
+    attributeID = shaderProgram.attributeIDs[colorAttributeName];
+    gl.vertexAttribPointer( attributeID, this.colorBuffer.length , gl.FLOAT, false,0,0);
+    gl.enableVertexAttribArray( attributeID );
+};
+
+/**
+ * draws the object.
+ *
+ * @param deltaTime - past time since last draw
+ */
+Ball.prototype.draw = function (deltaTime) {
+    this.edgeBuffer.bind();
+    gl.drawElements(gl.TRIANGLES , this.edgeBuffer.length , gl.UNSIGNED_SHORT , 0);
+}
