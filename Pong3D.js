@@ -34,7 +34,7 @@ function startup () {
     initGL();
     setupAttributes();
     setupControl();
-
+    //@TODO generate a ball object
     drawAnimated(0);
     //
 }
@@ -46,6 +46,7 @@ function drawAnimated ( timeStamp ) {
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+    //@TODO use the ball object.
     //Transformation
     mat4.rotate(ModelViewmatrix, ModelViewmatrix,dt*0.002, [1, 0, 0]);
     mat4.rotate(ModelViewmatrix, ModelViewmatrix,dt*0.001, [0, 0, 1]);
@@ -64,6 +65,7 @@ function drawAnimated ( timeStamp ) {
 
     time_old = timeStamp;
 
+    //@TODO use draw method of the specific object
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, edgeBuffer);
     gl.drawElements(gl.TRIANGLES , 36 , gl.UNSIGNED_SHORT , 0);
 

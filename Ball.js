@@ -35,6 +35,8 @@ function Ball() {
         1,1,1,1
     ];
 
+    this.modelViewMatrix = mat4.create();
+
     this.vertexBuffer = new ArrayBuffer(vertices);
 
     this.edgeBuffer = new ElementArrayBuffer(edges);
@@ -42,15 +44,37 @@ function Ball() {
     this.colorBuffer = new ArrayBuffer(colors);
 }
 
-Ball.prototype.rotate = function (deltaTime) {
+/**
+ * rotates the ball around the x,y and z axis.
+ *
+ * @param rotationMatrix - the matrix to rotate.
+ * @param deltaTime
+ */
+Ball.prototype.rotate = function (rotationMatrix, deltaTime) {
+    mat4.rotate(rotationMatrix, rotationMatrix,deltaTime*0.002, [1, 0, 0]);
+    mat4.rotate(rotationMatrix, rotationMatrix,deltaTime*0.001, [0, 0, 1]);
+    mat4.rotate(rotationMatrix, rotationMatrix,deltaTime*0.0005, [0, 1, 0]);
+};
+
+/**
+ * moves the ball in R3 around.
+ *
+ * @param translationMatrix - the matrix to translate.
+ * @param deltaTime
+ */
+//@TODO implement functionality of move
+Ball.prototype.move = function (translationMatrix, deltaTime) {
 
 };
 
-Ball.prototype.move = function (deltaTime) {
-
-};
-
-Ball.prototype.resize = function (deltaTime) {
+/**
+ * resize the ball object.
+ *
+ * @param scalingMatrix - the matrix to be scaled
+ * @param deltaTime
+ */
+//@TODO implement functionality of resize
+Ball.prototype.resize = function (scalingMatrix, deltaTime) {
 
 };
 
