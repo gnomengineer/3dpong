@@ -5,14 +5,14 @@
 
 function Ball() {
     var vertices = [
-        -0.5, -0.5, -0.5,
-        0.5, -0.5, -0.5,
-        0.5, 0.5, -0.5,
-        -0.5, 0.5, -0.5,
-        -0.5, -0.5, 0.5,
-        0.5, -0.5, 0.5,
-        0.5, 0.5, 0.5,
-        -0.5, 0.5, 0.5
+        -0.1, -0.1, -0.1,
+        0.1, -0.1, -0.1,
+        0.1, 0.1, -0.1,
+        -0.1, 0.1, -0.1,
+        -0.1, -0.1, 0.1,
+        0.1, -0.1, 0.1,
+        0.1, 0.1, 0.1,
+        -0.1, 0.1, 0.1
     ];
 
     var edges = [
@@ -37,11 +37,11 @@ function Ball() {
 
     this.modelViewMatrix = mat4.create();
 
-    this.vertexBuffer = new ArrayBuffer(vertices);
+    this.vertexBuffer = new ArrayBuffer(vertices,3);
 
     this.edgeBuffer = new ElementArrayBuffer(edges);
 
-    this.colorBuffer = new ArrayBuffer(colors);
+    this.colorBuffer = new ArrayBuffer(colors,4);
 }
 
 /**
@@ -87,12 +87,12 @@ Ball.prototype.resize = function (scalingMatrix, deltaTime) {
 Ball.prototype.enable = function (colorAttributeName, positionAttributeName) {
     this.vertexBuffer.bind();
     var attributeID = shaderProgram.attributeIDs[positionAttributeName];
-    gl.vertexAttribPointer( attributeID, this.vertexBuffer.length , gl.FLOAT, false,0,0);
+    gl.vertexAttribPointer( attributeID, this.vertexBuffer.contentElements , gl.FLOAT, false,0,0);
     gl.enableVertexAttribArray( attributeID );
 
     this.colorBuffer.bind();
     attributeID = shaderProgram.attributeIDs[colorAttributeName];
-    gl.vertexAttribPointer( attributeID, this.colorBuffer.length , gl.FLOAT, false,0,0);
+    gl.vertexAttribPointer( attributeID, this.colorBuffer.contentElements, gl.FLOAT, false,0,0);
     gl.enableVertexAttribArray( attributeID );
 };
 
@@ -101,7 +101,7 @@ Ball.prototype.enable = function (colorAttributeName, positionAttributeName) {
  *
  * @param deltaTime - past time since last draw
  */
-Ball.prototype.draw = function (deltaTime) {
+Ball.prototype.draw = function () {
     this.edgeBuffer.bind();
     gl.drawElements(gl.TRIANGLES , this.edgeBuffer.length , gl.UNSIGNED_SHORT , 0);
 }

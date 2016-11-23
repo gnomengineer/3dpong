@@ -4,6 +4,7 @@
  * @param uniformNames - array of uniform names.
  */
 function setUpUniforms( uniformNames ) {
+    shaderProgram.uniformIDs = [];
     uniformNames.forEach( function (entry) {
             shaderProgram.uniformIDs[entry] = gl.getUniformLocation(shaderProgram, entry)
         }
@@ -16,6 +17,7 @@ function setUpUniforms( uniformNames ) {
  * @param attributeNames - array of attribute names.
  */
 function setUpAttributes (attributeNames ){
+    shaderProgram.attributeIDs = [];
     attributeNames.forEach(function (entry) {
             shaderProgram.attributeIDs[entry] = gl.getAttribLocation(shaderProgram, entry)
         }
