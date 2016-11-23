@@ -1,14 +1,12 @@
-function ArrayBuffer (bufferContent) {
-    this.length = bufferContent.length;
+function ArrayBuffer (bufferContent,n) {
+    this.contentLength = bufferContent.length;
+    this.contentElements = n;
 
-    this.buffer = function () {
-        var buffer = gl.createBuffer();
+    this.buffer = gl.createBuffer();
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(bufferContent),gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(bufferContent),gl.STATIC_DRAW);
 
-        return buffer;
-    }
 }
 
 /**
