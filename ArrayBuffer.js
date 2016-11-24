@@ -1,6 +1,6 @@
-function ArrayBuffer (bufferContent,n) {
+function ArrayBuffer (bufferContent,numberOfElements) {
     this.contentLength = bufferContent.length;
-    this.contentElements = n;
+    this.contentElements = numberOfElements;
 
     this.buffer = gl.createBuffer();
 
