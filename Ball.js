@@ -35,13 +35,24 @@ function Ball() {
         1,1,1,1
     ];
 
-    this.modelViewMatrix = mat4.create();
+    var normalen = [
+        1,0,0,
+        0,1,0,
+        0,0,1,
+        -1,0,0,
+        0,-1,0,
+        0,0,-1
+    ];
+
+    this.modelMatrix = mat4.create();
 
     this.vertexBuffer = new ArrayBuffer(vertices,3);
 
     this.edgeBuffer = new ElementArrayBuffer(edges);
 
     this.colorBuffer = new ArrayBuffer(colors,4);
+
+    this.normalenBuffer = new ArrayBuffer(normalen,3);
 }
 
 /**
@@ -84,7 +95,7 @@ Ball.prototype.resize = function (scalingMatrix, deltaTime) {
  * @param colorAttributeName - name of the color attribute
  * @param positionAttributeName - name of the position attribute
  */
-Ball.prototype.enable = function (colorAttributeName, positionAttributeName) {
+Ball.prototype.enable = function (colorAttributeName, positionAttributeName, normalenAttributeName) {
     this.vertexBuffer.bind();
     var attributeID = shaderProgram.attributeIDs[positionAttributeName];
     gl.vertexAttribPointer( attributeID, this.vertexBuffer.contentElements , gl.FLOAT, false,0,0);
@@ -94,6 +105,10 @@ Ball.prototype.enable = function (colorAttributeName, positionAttributeName) {
     attributeID = shaderProgram.attributeIDs[colorAttributeName];
     gl.vertexAttribPointer( attributeID, this.colorBuffer.contentElements, gl.FLOAT, false,0,0);
     gl.enableVertexAttribArray( attributeID );
+
+    this.normalenBuffer.bind();
+    attributeID = shaderProgram.attributeIDs[normalenAttributeName];
+    gl.vertexAttribPointer( attributeID, this.normalenBuffer.contentElements, gl.FLOAT, false,0,0);
 };
 
 /**
@@ -104,4 +119,9 @@ Ball.prototype.enable = function (colorAttributeName, positionAttributeName) {
 Ball.prototype.draw = function () {
     this.edgeBuffer.bind();
     gl.drawElements(gl.TRIANGLES , this.edgeBuffer.length , gl.UNSIGNED_SHORT , 0);
+};
+
+Ball.prototype.setLights = function () {
+    var lightPositionEye = vec3.create();
+
 }

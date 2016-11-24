@@ -32,12 +32,14 @@ function startup () {
     canvas = document.getElementById("gameCanvas");
     gl = createGLContext(canvas);
     initGL();
-    //setupAttributes();
-    setUpAttributes(["aVertexColor","aVertexPosition"]);
-    setUpUniforms(["uProjectionMatrix","uCameraMatrix","uModelViewMatrix"]);
-    //setupControl();
+    //each attribute variable name in fragment shader is put in here
+    setUpAttributes(["aVertexColor","aVertexPosition","aVertexNormal"]);
+    //same for uniforms
+    setUpUniforms(["uProjectionMatrix","uCameraMatrix","uModelMatrix","uNormalMatrix","uLightPosition"]);
+
     ball = new Ball();
-    ball.enable("aVertexColor","aVertexPosition");
+    ball.enable("aVertexColor","aVertexPosition","aVertexNormal");
+    light = new Light();
     drawAnimated(0);
     //
 }
@@ -49,9 +51,14 @@ function drawAnimated ( timeStamp ) {
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+    //NormalMatrix
+    normal = mat3.create();
+    mat3.normalFromMat4(normal,ball.modelMatrix);
+    gl.uniformMatrix4fv(shaderProgram.uniformIDs["uNormalMatrix"], false, normal);
+
     //Transformation
-    ball.rotate(ball.modelViewMatrix,dt);
-    gl.uniformMatrix4fv(shaderProgram.uniformIDs["uModelViewMatrix"],false,ball.modelViewMatrix);
+    ball.rotate(ball.modelMatrix,dt);
+    gl.uniformMatrix4fv(shaderProgram.uniformIDs["uModelMatrix"],false,ball.modelMatrix);
 
     //Projection
     projectionMatrix = mat4.create();
@@ -63,6 +70,7 @@ function drawAnimated ( timeStamp ) {
     mat4.lookAt(camera, [1, 1, 0], [0, 0, 0], [0, 1, 0]);
     gl.uniformMatrix4fv(shaderProgram.uniformIDs["uCameraMatrix"], false, camera);
 
+    light.setHighNoon(camera,"uLightPosition");
     time_old = timeStamp;
 
     ball.draw();
