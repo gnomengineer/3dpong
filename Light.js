@@ -21,19 +21,18 @@ Light.prototype.setSunsetLights = function (cameraMatrix,uniformName, colorunifo
 };
 
 Light.prototype.setDawn = function (cameraMatrix,uniformName, coloruniformname) {
-    this.setLights(cameraMatrix,uniformName,this.dawn,coloruniformname);
+    this.setLights(cameraMatrix,uniformName,this.dawn,this.color);
 };
 
 Light.prototype.setHighNoon = function (cameraMatrix,uniformName, coloruniformname) {
     this.setLights(cameraMatrix,uniformName,this.highnoon,this.color, coloruniformname);
 };
 
-Light.prototype.setLights = function(cameraMatrix, uniformName, position, coloruniformname){
+Light.prototype.setLights = function(cameraMatrix, uniformName, position, color){
     var lightPositionEye = vec3.create();
     vec3.transformMat4( lightPositionEye , position , cameraMatrix);
     gl.uniform3fv( shaderProgram.uniformIDs[uniformName] , lightPositionEye ) ;
-    //todo add buffer
-
+    gl.uniform3fv( shaderProgram.uniformIDs["uLightColor"], color);
 
     //var colorVector = vec4.create();
     //gl.uniform4f(shaderProgram.uniformIDs[coloruniformname], 0, 0, 1, 1);
