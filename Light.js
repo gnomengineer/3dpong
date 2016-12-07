@@ -11,30 +11,39 @@ function Light() {
         60,0,0
     ];
 
-    this.color = [
-        1,1,1,1
+    this.dawnColor = [
+        0.875,0.85,0.63
     ];
+
+    this.noonColor = [
+        1,1,1
+    ]
+
+    this.sunsetColor = [
+        0.92,0.44,0.45
+    ]
+
 }
 
-Light.prototype.setSunsetLights = function (cameraMatrix,uniformName, coloruniformname) {
-    this.setLights(cameraMatrix,uniformName,this.sunset,this.color);
+Light.prototype.setSunsetLights = function (cameraMatrix,positionUniform, colorUniform) {
+    this.setLights(cameraMatrix,positionUniform,this.sunset,this.sunsetColor, colorUniform);
 };
 
-Light.prototype.setDawn = function (cameraMatrix,uniformName, coloruniformname) {
-    this.setLights(cameraMatrix,uniformName,this.dawn,this.color);
+Light.prototype.setDawn = function (cameraMatrix,positionUniform, colorUniform) {
+    this.setLights(cameraMatrix,positionUniform,this.dawn,this.dawnColor, colorUniform);
 };
 
-Light.prototype.setHighNoon = function (cameraMatrix,uniformName, coloruniformname) {
-    this.setLights(cameraMatrix,uniformName,this.highnoon,this.color, coloruniformname);
+Light.prototype.setHighNoon = function (cameraMatrix,positionUniform, colorUniform) {
+    this.setLights(cameraMatrix,positionUniform,this.highnoon,this.noonColor, colorUniform);
 };
 
-Light.prototype.setLights = function(cameraMatrix, uniformName, position, color){
+Light.prototype.setLights = function(cameraMatrix, positionUniform, position, color, colorUniform){
     var lightPositionEye = vec3.create();
     vec3.transformMat4( lightPositionEye , position , cameraMatrix);
-    gl.uniform3fv( shaderProgram.uniformIDs[uniformName] , lightPositionEye ) ;
-    gl.uniform3fv( shaderProgram.uniformIDs["uLightColor"], color);
+    gl.uniform3fv( shaderProgram.uniformIDs[positionUniform] , lightPositionEye ) ;
+    //gl.uniform3fv( shaderProgram.uniformIDs[colorUniform], color);
 
     //var colorVector = vec4.create();
     //gl.uniform4f(shaderProgram.uniformIDs[coloruniformname], 0, 0, 1, 1);
 
-}
+};
