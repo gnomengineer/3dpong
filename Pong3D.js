@@ -15,19 +15,6 @@ var canvas;
 var gl;
 var shaderProgram;
 
-var uProjectionMatrixId;
-var uCameraMatrixId;
-var uModelViewMatrixId;
-
-var ModelViewmatrix = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
-
-var aVertexPositionId;
-var aVertexColorId;
-
-var colorBuffer;
-var vertexBuffer;
-var edgeBuffer;
-
 function startup () {
     canvas = document.getElementById("gameCanvas");
     gl = createGLContext(canvas);
@@ -37,9 +24,10 @@ function startup () {
     //same for uniforms
     setUpUniforms(["uProjectionMatrix","uCameraMatrix","uModelMatrix","uNormalMatrix","uLightPosition", "uLightColor"]);
 
-    ball = new Ball();
-    ball.enable("aVertexColor","aVertexPosition","aVertexNormal");
+    cube = new Cube();
     light = new Light();
+    sphere = new Sphere(50,50);
+    //sphere = defineSphere(gl,50,50);
     drawAnimated(0);
     //
 }
@@ -50,16 +38,6 @@ function drawAnimated ( timeStamp ) {
 
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-    //NormalMatrix
-    normal = mat3.create();
-    mat3.normalFromMat4(normal,ball.modelMatrix);
-    gl.uniformMatrix4fv(shaderProgram.uniformIDs["uNormalMatrix"], false, normal);
-
-    //Transformation
-    //ball.rotate(ball.modelMatrix,dt);
-    gl.uniformMatrix4fv(shaderProgram.uniformIDs["uModelMatrix"],false,ball.modelMatrix);
-
     //Projection
     projectionMatrix = mat4.create();
     mat4.ortho(projectionMatrix, -1, 1, -1, 1, 0.1, 100);
@@ -70,14 +48,33 @@ function drawAnimated ( timeStamp ) {
     mat4.lookAt(camera, [1, 1, 1], [0, 0, 0], [0, 1, 0]);
     gl.uniformMatrix4fv(shaderProgram.uniformIDs["uCameraMatrix"], false, camera);
 
-    light.setDawn(camera,"uLightPosition");
+    //Cube handling
+    //Transformation
+    //cube.rotate(cube.modelMatrix,dt);
+    gl.uniformMatrix4fv(shaderProgram.uniformIDs["uModelMatrix"],false,cube.modelMatrix);
+
+    //NormalMatrix
+    normal = mat3.create();
+    mat3.normalFromMat4(normal,cube.modelMatrix);
+    gl.uniformMatrix3fv(shaderProgram.uniformIDs["uNormalMatrix"], false, normal);
+    cube.draw("aVertexColor","aVertexPosition","aVertexNormal");
+
+    //Sphere handling
+    //Transformation
+    sphere.setModelViewMatrix(camera);
+    gl.uniformMatrix4fv(shaderProgram.uniformIDs["uModelMatrix"],false,sphere.modelMatrix);
+
+    //NormalMatrix
+    normal = mat3.create();
+    mat3.normalFromMat4(normal,sphere.modelMatrix);
+    gl.uniformMatrix3fv(shaderProgram.uniformIDs["uNormalMatrix"], false, normal);
+    sphere.draw("aVertexColor","aVertexPosition","aVertexNormal");
+
+    //drawSphere(gl,sphere,shaderProgram.attributeIDs["aVertexPosition"],shaderProgram.attributeIDs["aVertexColor"],shaderProgram.attributeIDs["aVertexNormal"],[1,0,1]);
+
+    light.setHighNoon(camera,"uLightPosition","uLightColor");
     time_old = timeStamp;
-
-    ball.draw();
-
     window.requestAnimationFrame(drawAnimated);
-
-
 }
 
 function rotateX(m, angle) {

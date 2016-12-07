@@ -3,7 +3,7 @@
  * @constructor
  */
 
-function Ball() {
+function Cube() {
     var vertices = [
         -0.2, -0.2, -0.2,
         0.2, -0.2, -0.2,
@@ -79,36 +79,36 @@ function Ball() {
 }
 
 /**
- * rotates the ball around the x,y and z axis.
+ * rotates the cube around the x,y and z axis.
  *
  * @param rotationMatrix - the matrix to rotate.
  * @param deltaTime
  */
-Ball.prototype.rotate = function (rotationMatrix, deltaTime) {
+Cube.prototype.rotate = function (rotationMatrix, deltaTime) {
     mat4.rotate(rotationMatrix, rotationMatrix,deltaTime*0.002, [1, 0, 0]);
     mat4.rotate(rotationMatrix, rotationMatrix,deltaTime*0.001, [0, 0, 1]);
     mat4.rotate(rotationMatrix, rotationMatrix,deltaTime*0.0005, [0, 1, 0]);
 };
 
 /**
- * moves the ball in R3 around.
+ * moves the cube in R3 around.
  *
  * @param translationMatrix - the matrix to translate.
  * @param deltaTime
  */
 //@TODO implement functionality of move
-Ball.prototype.move = function (translationMatrix, deltaTime) {
+Cube.prototype.move = function (translationMatrix, deltaTime) {
 
 };
 
 /**
- * resize the ball object.
+ * resize the cube object.
  *
  * @param scalingMatrix - the matrix to be scaled
  * @param deltaTime
  */
 //@TODO implement functionality of resize
-Ball.prototype.resize = function (scalingMatrix, deltaTime) {
+Cube.prototype.resize = function (scalingMatrix, deltaTime) {
 
 };
 
@@ -118,7 +118,7 @@ Ball.prototype.resize = function (scalingMatrix, deltaTime) {
  * @param colorAttributeName - name of the color attribute
  * @param positionAttributeName - name of the position attribute
  */
-Ball.prototype.enable = function (colorAttributeName, positionAttributeName, normalenAttributeName) {
+Cube.prototype.enable = function (colorAttributeName, positionAttributeName, normalenAttributeName) {
     this.vertexBuffer.bind();
     var attributeID = shaderProgram.attributeIDs[positionAttributeName];
     gl.vertexAttribPointer( attributeID, this.vertexBuffer.contentElements , gl.FLOAT, false,0,0);
@@ -139,12 +139,17 @@ Ball.prototype.enable = function (colorAttributeName, positionAttributeName, nor
  *
  * @param deltaTime - past time since last draw
  */
-Ball.prototype.draw = function () {
+Cube.prototype.draw = function (colorID,positionID,normalID) {
+    this.enable(colorID,positionID,normalID);
     this.edgeBuffer.bind();
     gl.drawElements(gl.TRIANGLES , this.edgeBuffer.length , gl.UNSIGNED_SHORT , 0);
 };
 
-Ball.prototype.setLights = function () {
+Cube.prototype.setLights = function () {
     var lightPositionEye = vec3.create();
 
-}
+};
+
+Cube.prototype.setModelViewMatrix = function (matrix) {
+    this.modelMatrix = matrix;
+};
