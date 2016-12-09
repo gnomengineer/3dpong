@@ -1,14 +1,14 @@
 function Light() {
     this.sunset = [
-        0,0,1
+        2,2,0
     ];
 
     this.highnoon = [
-        0,2,0
+        0,2,3
     ];
 
     this.dawn = [
-        60,0,0
+        -2,-2,0
     ];
 
     this.dawnColor = [
@@ -25,7 +25,7 @@ function Light() {
 
 }
 
-Light.prototype.setSunsetLights = function (cameraMatrix,positionUniform, colorUniform) {
+Light.prototype.setSunset = function (cameraMatrix,positionUniform, colorUniform) {
     this.setLights(cameraMatrix,positionUniform,this.sunset,this.sunsetColor, colorUniform);
 };
 
