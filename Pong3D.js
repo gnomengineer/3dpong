@@ -44,12 +44,12 @@ function drawAnimated ( timeStamp ) {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     //Projection
     projectionMatrix = mat4.create();
-    mat4.ortho(projectionMatrix, -1, 1, -1, 1, 0.1, 100);
+    mat4.ortho(projectionMatrix, -1, 1, -1, 1, 0.1, 5);
     gl.uniformMatrix4fv(shaderProgram.uniformIDs["uProjectionMatrix"], false, projectionMatrix);
 
     //Camera
     camera = mat4.create();
-    mat4.lookAt(camera, [1, 1, 1], [0, 0, 0], [0, 1, 0]);
+    mat4.lookAt(camera, [1, 1, 1], [0, 0, 0], [0, 0, 1]);
     gl.uniformMatrix4fv(shaderProgram.uniformIDs["uCameraMatrix"], false, camera);
 
     //Cube handling
@@ -100,7 +100,7 @@ function initGL() {
     gl.frontFace(gl.CCW); // defines how the front face is drawn
     gl.cullFace(gl.BACK); // defines which face should be culled
     gl.enable(gl.CULL_FACE); // enables culling
-    gl.clearColor(0, 0, 0, 1.0);
+    gl.clearColor(0.2, 0.2, 0.2, 1.0);
     gl.viewport(0, 0, 500, 500);
 }
 

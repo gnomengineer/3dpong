@@ -21,7 +21,7 @@ void main() {
     vec3 diffuse = clamp(diffuseWeight, 0.0,1.0);
     //vec3 lightning = ambientLight + (directionalLightColor * directional);
 
-    vec3 spec = vec3(0.4,0.4,0.4) *  pow(max(dot(reflection, eye), 0.0), 1.4);
+    vec3 spec = vec3(0.4,0.4,0.4) *  pow(max(dot(reflection, eye), 0.0), 3.0);
    spec = clamp(spec, 0.0, 1.0);
 
     gl_FragColor = vec4 (vColor.rgb * (ambientLight + diffuse) + spec, vColor.a);

@@ -4,7 +4,7 @@ function Light() {
     ];
 
     this.highnoon = [
-        0,5,-2
+        0,2,6
     ];
 
     this.dawn = [
