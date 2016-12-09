@@ -4,7 +4,7 @@ function Light() {
     ];
 
     this.highnoon = [
-        0,2,3
+        0,5,-2
     ];
 
     this.dawn = [
@@ -16,7 +16,7 @@ function Light() {
     ];
 
     this.noonColor = [
-        1,1,1
+        0.6,0.6,0.6
     ]
 
     this.sunsetColor = [
@@ -41,7 +41,7 @@ Light.prototype.setLights = function(cameraMatrix, positionUniform, position, co
     var lightPositionEye = vec3.create();
     vec3.transformMat4( lightPositionEye , position , cameraMatrix);
     gl.uniform3fv( shaderProgram.uniformIDs[positionUniform] , lightPositionEye ) ;
-    //gl.uniform3fv( shaderProgram.uniformIDs[colorUniform], color);
+    gl.uniform3fv( shaderProgram.uniformIDs[colorUniform], color);
 
     //var colorVector = vec4.create();
     //gl.uniform4f(shaderProgram.uniformIDs[coloruniformname], 0, 0, 1, 1);

@@ -73,7 +73,7 @@ Sphere.prototype.enable = function (aVertexPositionId,aVertexColorId,aVertexNorm
     attributeID = shaderProgram.attributeIDs[aVertexColorId];
     // color is directly specified as an attribute here, as it is valid for the whole object
     gl.disableVertexAttribArray(attributeID);
-    gl.vertexAttrib3f(attributeID, 1,0,1);
+    gl.vertexAttrib3f(attributeID, 0,0,1);
 
     attributeID = shaderProgram.attributeIDs[aVertexNormalId];
     // bind the buffer for normal
