@@ -5,37 +5,37 @@
 
 function Cube() {
     var vertices = [
-        // vordere Fläche
+        //TOP
         -0.2, -0.2,  0.2,
         0.2, -0.2,  0.2,
         0.2,  0.2,  0.2,
         -0.2,  0.2,  0.2,
 
-        // hintere Fläche
+        //BOTTOM
         -0.2, -0.2, -0.2,
         -0.2,  0.2, -0.2,
         0.2,  0.2, -0.2,
         0.2, -0.2, -0.2,
 
-        // obere Fläche
+        //BACK
         -0.2,  0.2, -0.2,
         -0.2,  0.2,  0.2,
         0.2,  0.2,  0.2,
         0.2,  0.2, -0.2,
 
-        // untere Fläche
+        //FRONT
         -0.2, -0.2, -0.2,
         0.2, -0.2, -0.2,
         0.2, -0.2,  0.2,
         -0.2, -0.2,  0.2,
 
-        // rechte Fläche
+        //RIGHT
         0.2, -0.2, -0.2,
         0.2,  0.2, -0.2,
         0.2,  0.2,  0.2,
         0.2, -0.2,  0.2,
 
-        // linke Fläche
+        //LEFT
         -0.2, -0.2, -0.2,
         -0.2, -0.2,  0.2,
         -0.2,  0.2,  0.2,
@@ -43,30 +43,30 @@ function Cube() {
     ];
 
     var edges = [
-        0,  1,  2,      0,  2,  3,    // vorne
-        4,  5,  6,      4,  6,  7,    // hinten
-        8,  9,  10,     8,  10, 11,   // oben
-        12, 13, 14,     12, 14, 15,   // unten
+        0,  1,  2,      0,  2,  3,    // oben
+        4,  5,  6,      4,  6,  7,    // unten
+        8,  9,  10,     8,  10, 11,   // hinten
+        12, 13, 14,     12, 14, 15,   // vorne
         16, 17, 18,     16, 18, 19,   // rechts
         20, 21, 22,     20, 22, 23    // links
     ];
 
-    var frontColor = [1.0, 0.0, 0.0],
-        backColor = [0.0, 0.0, 1.0],
-        topColor = [0.0, 1.0, 0.0],
-        bottomColor = [1.0, 1.0, 0.0],
+    var topColor = [1.0, 0.0, 0.0],
+        bottomColor = [0.0, 0.0, 1.0],
+        backColor = [0.0, 1.0, 0.0],
+        frontColor = [1.0, 1.0, 0.0],
         rightColor = [1.0, 0.0, 1.0],
         leftColor = [0.0, 1.0, 1.0];
 
-    var frontSide = frontColor.concat(frontColor, frontColor, frontColor);
-    var backSide = backColor.concat(backColor, backColor, backColor);
     var topSide = topColor.concat(topColor, topColor, topColor);
     var bottomSide = bottomColor.concat(bottomColor, bottomColor, bottomColor);
+    var backSide = backColor.concat(backColor, backColor, backColor);
+    var frontSide = frontColor.concat(frontColor, frontColor, frontColor);
     var rightSide = rightColor.concat(rightColor, rightColor, rightColor);
     var leftSide = leftColor.concat(leftColor, leftColor, leftColor);
 
 
-    var allSides = frontSide.concat(backSide, topSide, bottomSide, rightSide, leftSide);
+    var allSides = topSide.concat(bottomSide, backSide, frontSide, rightSide, leftSide);
 
     var normalen = [
         0.0,  0.0,  -1.0,
