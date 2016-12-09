@@ -5,66 +5,99 @@
 
 function Cube() {
     var vertices = [
+        // vordere Fläche
+        -0.2, -0.2,  0.2,
+        0.2, -0.2,  0.2,
+        0.2,  0.2,  0.2,
+        -0.2,  0.2,  0.2,
+
+        // hintere Fläche
+        -0.2, -0.2, -0.2,
+        -0.2,  0.2, -0.2,
+        0.2,  0.2, -0.2,
+        0.2, -0.2, -0.2,
+
+        // obere Fläche
+        -0.2,  0.2, -0.2,
+        -0.2,  0.2,  0.2,
+        0.2,  0.2,  0.2,
+        0.2,  0.2, -0.2,
+
+        // untere Fläche
         -0.2, -0.2, -0.2,
         0.2, -0.2, -0.2,
-        0.2, 0.2, -0.2,
-        -0.2, 0.2, -0.2,
-        -0.2, -0.2, 0.2,
-        0.2, -0.2, 0.2,
-        0.2, 0.2, 0.2,
-        -0.2, 0.2, 0.2
+        0.2, -0.2,  0.2,
+        -0.2, -0.2,  0.2,
+
+        // rechte Fläche
+        0.2, -0.2, -0.2,
+        0.2,  0.2, -0.2,
+        0.2,  0.2,  0.2,
+        0.2, -0.2,  0.2,
+
+        // linke Fläche
+        -0.2, -0.2, -0.2,
+        -0.2, -0.2,  0.2,
+        -0.2,  0.2,  0.2,
+        -0.2,  0.2, -0.2
     ];
 
     var edges = [
-        0, 1, 2, 0, 2, 3,  //front
-        1, 5, 6, 1, 6, 2,  //right
-        2, 6, 7, 2, 7, 3,  //top
-        0, 3, 7, 0, 7, 4,  //left
-        0, 4, 5, 0, 5, 1,  //bottom
-        4, 7, 6, 4, 6, 5   //back
+        0,  1,  2,      0,  2,  3,    // vorne
+        4,  5,  6,      4,  6,  7,    // hinten
+        8,  9,  10,     8,  10, 11,   // oben
+        12, 13, 14,     12, 14, 15,   // unten
+        16, 17, 18,     16, 18, 19,   // rechts
+        20, 21, 22,     20, 22, 23    // links
     ];
 
-    var colors = [
-        1,1,1,1,
-        0.2, 0.2, 0.2, 1,
-        1,1,1,1,
-        0.2, 0.2, 0.2, 1,
-        0.2, 0.2, 0.2, 1,
-        1,1,1,1,
-        0.2, 0.2, 0.2, 1,
-        1,1,1,1
-    ];
+    var frontColor = [1.0, 0.0, 0.0],
+        backColor = [0.0, 0.0, 1.0],
+        topColor = [0.0, 1.0, 0.0],
+        bottomColor = [1.0, 1.0, 0.0],
+        rightColor = [1.0, 0.0, 1.0],
+        leftColor = [0.0, 1.0, 1.0];
+
+    var frontSide = frontColor.concat(frontColor, frontColor, frontColor);
+    var backSide = backColor.concat(backColor, backColor, backColor);
+    var topSide = topColor.concat(topColor, topColor, topColor);
+    var bottomSide = bottomColor.concat(bottomColor, bottomColor, bottomColor);
+    var rightSide = rightColor.concat(rightColor, rightColor, rightColor);
+    var leftSide = leftColor.concat(leftColor, leftColor, leftColor);
+
+
+    var allSides = frontSide.concat(backSide, topSide, bottomSide, rightSide, leftSide);
 
     var normalen = [
-        1,0,0,
-        1,0,0,
-        1,0,0,
-        1,0,0,
+        0.0,  0.0,  -1.0,
+        0.0,  0.0,  -1.0,
+        0.0,  0.0,  -1.0,
+        0.0,  0.0,  -1.0,
 
-        0,1,0,
-        0,1,0,
-        0,1,0,
-        0,1,0,
+        0.0,  0.0,  1.0,
+        0.0,  0.0,  1.0,
+        0.0,  0.0,  1.0,
+        0.0,  0.0,  1.0,
 
-        0,0,1,
-        0,0,1,
-        0,0,1,
-        0,0,1,
+        0.0,  1.0,  0.0,
+        0.0,  1.0,  0.0,
+        0.0,  1.0,  0.0,
+        0.0,  1.0,  0.0,
 
-        -1,0,0,
-        -1,0,0,
-        -1,0,0,
-        -1,0,0,
+        0.0,  -1.0,  0.0,
+        0.0,  -1.0,  0.0,
+        0.0,  -1.0,  0.0,
+        0.0,  -1.0,  0.0,
 
-        0,-1,0,
-        0,-1,0,
-        0,-1,0,
-        0,-1,0,
+        1.0, 0.0,  0.0,
+        1.0, 0.0,  0.0,
+        1.0, 0.0,  0.0,
+        1.0, 0.0,  0.0,
 
-        0,0,-1,
-        0,0,-1,
-        0,0,-1,
-        0,0,-1
+        -1.0,  0.0, 0.0,
+        -1.0,  0.0, 0.0,
+        -1.0,  0.0, 0.0,
+        -1.0,  0.0, 0.0
     ];
 
     this.modelMatrix = mat4.create();
@@ -73,7 +106,7 @@ function Cube() {
 
     this.edgeBuffer = new ElementArrayBuffer(edges);
 
-    this.colorBuffer = new ArrayBuffer(colors,4);
+    this.colorBuffer = new ArrayBuffer(allSides,3);
 
     this.normalenBuffer = new ArrayBuffer(normalen,3);
 }
@@ -120,17 +153,17 @@ Cube.prototype.resize = function (scalingMatrix, deltaTime) {
 Cube.prototype.enable = function (colorAttributeName, positionAttributeName, normalenAttributeName) {
     this.vertexBuffer.bind();
     var attributeID = shaderProgram.attributeIDs[positionAttributeName];
-    gl.vertexAttribPointer( attributeID, this.vertexBuffer.contentElements , gl.FLOAT, false,0,0);
+    gl.vertexAttribPointer( attributeID, 3 , gl.FLOAT, false,0,0);
     gl.enableVertexAttribArray( attributeID );
 
     this.colorBuffer.bind();
     attributeID = shaderProgram.attributeIDs[colorAttributeName];
-    gl.vertexAttribPointer( attributeID, this.colorBuffer.contentElements, gl.FLOAT, false,0,0);
+    gl.vertexAttribPointer( attributeID, 3, gl.FLOAT, false,0,0);
     gl.enableVertexAttribArray( attributeID );
 
     this.normalenBuffer.bind();
     attributeID = shaderProgram.attributeIDs[normalenAttributeName];
-    gl.vertexAttribPointer( attributeID, this.normalenBuffer.contentElements, gl.FLOAT, false,0,0);
+    gl.vertexAttribPointer( attributeID, 3, gl.FLOAT, false,0,0);
 };
 
 /**
@@ -141,7 +174,7 @@ Cube.prototype.enable = function (colorAttributeName, positionAttributeName, nor
 Cube.prototype.draw = function (colorID,positionID,normalID) {
     this.enable(colorID,positionID,normalID);
     this.edgeBuffer.bind();
-    gl.drawElements(gl.TRIANGLES , this.edgeBuffer.length , gl.UNSIGNED_SHORT , 0);
+    gl.drawElements(gl.TRIANGLES , 36 , gl.UNSIGNED_SHORT , 0);
 };
 
 Cube.prototype.setLights = function () {
