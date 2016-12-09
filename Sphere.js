@@ -93,3 +93,17 @@ Sphere.prototype.draw = function (colorID,positionID,normalID) {
 Sphere.prototype.setModelViewMatrix = function (matrix) {
     this.modelMatrix = matrix;
 };
+
+Sphere.prototype.scale = function (scalingFactors) {
+    mat4.scale(this.modelMatrix,this.modelMatrix,scalingFactors);
+};
+
+/**
+ * moves the cube in R3 around.
+ *
+ * @param translationMatrix - the matrix to translate.
+ * @param deltaTime
+ */
+Sphere.prototype.move = function (deltaMove, deltaTime) {
+    mat4.translate(this.modelMatrix,this.modelMatrix,deltaMove);
+};

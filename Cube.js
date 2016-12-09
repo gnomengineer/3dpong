@@ -96,9 +96,8 @@ Cube.prototype.rotate = function (rotationMatrix, deltaTime) {
  * @param translationMatrix - the matrix to translate.
  * @param deltaTime
  */
-//@TODO implement functionality of move
-Cube.prototype.move = function (translationMatrix, deltaTime) {
-
+Cube.prototype.move = function (deltaMove, deltaTime) {
+    mat4.translate(this.modelMatrix,this.modelMatrix,deltaMove);
 };
 
 /**

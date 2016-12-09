@@ -25,8 +25,12 @@ function startup () {
     setUpUniforms(["uProjectionMatrix","uCameraMatrix","uModelMatrix","uNormalMatrix","uLightPosition", "uLightColor"]);
 
     cube = new Cube();
+    cube.move([-0.5,0,0]);
+
     light = new Light();
     sphere = new Sphere(50,50);
+    sphere.move([0.5,0,0]);
+    sphere.scale([0.3,0.3,0.3]);
     //sphere = defineSphere(gl,50,50);
     drawAnimated(0);
     //
@@ -61,7 +65,7 @@ function drawAnimated ( timeStamp ) {
 
     //Sphere handling
     //Transformation
-    sphere.setModelViewMatrix(camera);
+    //sphere.setModelViewMatrix(camera);
     gl.uniformMatrix4fv(shaderProgram.uniformIDs["uModelMatrix"],false,sphere.modelMatrix);
 
     //NormalMatrix
